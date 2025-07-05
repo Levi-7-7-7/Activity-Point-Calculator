@@ -13,28 +13,36 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ padding: '10px', background: '#f0f0f0', marginBottom: '20px' }}>
-      <Link to="/" style={{ marginRight: '15px' }}>🏠 Home</Link>
+    <nav className="navbar">
+      <div className="navbar-links">
+        <Link to="/">🏠 Home</Link>
 
-      {isLoggedIn && role === 'student' && (
-        <>
-          <Link to="/dashboard" style={{ marginRight: '15px' }}>📊 Dashboard</Link>
-          <Link to="/upload" style={{ marginRight: '15px' }}>📁 Upload</Link>
-        </>
-      )}
+        {isLoggedIn && role === 'student' && (
+          <>
+            <Link to="/dashboard">📊 Dashboard</Link>
+            <Link to="/upload">📁 Upload</Link>
+            <Link to="/update-profile">🛠 Update Profile</Link>
+          </>
+        )}
 
-      {isLoggedIn && role === 'tutor' && (
-        <Link to="/tutor" style={{ marginRight: '15px' }}>🧑‍🏫 Tutor Panel</Link>
-      )}
+        {isLoggedIn && role === 'tutor' && (
+          <>
+            <Link to="/tutor">🧑‍🏫 Tutor Panel</Link>
+            <Link to="/tutor/students">📋 Student List</Link>
+          </>
+        )}
+      </div>
 
-      {isLoggedIn ? (
-        <button onClick={handleLogout} style={{ marginLeft: '20px' }}>🚪 Logout</button>
-      ) : (
-        <>
-          <Link to="/" style={{ marginRight: '15px' }}>🔐 Login</Link>
-          <Link to="/register">📝 Register</Link>
-        </>
-      )}
+      <div className="navbar-right">
+        {isLoggedIn ? (
+          <button onClick={handleLogout}>🚪 Logout</button>
+        ) : (
+          <>
+            <Link to="/">🔐 Login</Link>
+            <Link to="/register">📝 Register</Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 };

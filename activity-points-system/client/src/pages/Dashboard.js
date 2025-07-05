@@ -66,7 +66,7 @@ const Dashboard = () => {
               <th>Points</th>
               <th>Certificate</th>
               <th>Comment</th>
-              <th>Action</th> {/* Add this header */}
+              <th>Action</th> 
             </tr>
           </thead>
           <tbody>

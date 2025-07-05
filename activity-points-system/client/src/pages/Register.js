@@ -1,34 +1,112 @@
-import React, { useState } from 'react';
+// pages/Register.js
+import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: '',
+    registerNumber: '',
+    rollNumber: ''
+  });
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const navigate = useNavigate();
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleRegister = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/register', form);
-      alert('Registered successfully! Now login.');
+      const dataToSend = {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        role: form.role
+      };
+
+      // Include only if student
+      if (form.role === 'student') {
+        dataToSend.registerNumber = form.registerNumber;
+        dataToSend.rollNumber = form.rollNumber;
+      }
+
+      await axios.post('http://localhost:5000/api/auth/register', dataToSend);
+
+      localStorage.setItem('otpEmail', form.email);
+      alert('OTP sent to your email');
+      navigate('/verify-otp');
     } catch (err) {
-      alert(err.response?.data?.msg || 'Error occurred');
+      alert(err.response?.data?.msg || 'Registration failed');
     }
   };
 
   return (
     <div>
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" onChange={handleChange} required />
-        <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
-        <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
-        <select name="role" onChange={handleChange}>
-          <option value="student">Student</option>
-          <option value="tutor">Tutor</option>
-        </select>
-        <button type="submit">Register</button>
-      </form>
+
+      <input
+        name="name"
+        placeholder="Name"
+        value={form.name}
+        onChange={handleChange}
+        required
+      />
+
+      <input
+        name="email"
+        type="email"
+        placeholder="Email"
+        value={form.email}
+        onChange={handleChange}
+        required
+      />
+
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        value={form.password}
+        onChange={handleChange}
+        required
+      />
+
+      <select
+        name="role"
+        value={form.role}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select Role</option>
+        <option value="student">Student</option>
+        <option value="tutor">Tutor</option>
+      </select>
+
+      {form.role === 'student' && (
+        <>
+          <input
+            name="registerNumber"
+            placeholder="Register Number"
+            value={form.registerNumber}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            name="rollNumber"
+            placeholder="Roll Number"
+            value={form.rollNumber}
+            onChange={handleChange}
+            required
+          />
+        </>
+      )}
+
+      <button onClick={handleRegister}>Send OTP</button>
     </div>
   );
 };

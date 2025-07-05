@@ -138,6 +138,27 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+// routes/certificates.js
+router.get('/student/:id', auth, async (req, res) => {
+  if (req.user.role !== 'tutor') return res.status(403).json({ msg: 'Forbidden' });
+
+  const certs = await Certificate.find({ student: req.params.id }).populate('student', 'name email');
+  res.json(certs);
+});
+
+// routes/certificates.js
+router.get('/notifications', auth, async (req, res) => {
+  if (req.user.role !== 'tutor') return res.status(403).json({ msg: 'Forbidden' });
+
+  const recent = await Certificate.find({ status: 'pending' })
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .populate('student', 'name email');
+
+  res.json(recent);
+});
+
+
 
 module.exports = router;
 
