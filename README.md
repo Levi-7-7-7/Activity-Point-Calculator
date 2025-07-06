@@ -1,4 +1,3 @@
-```markdown
 # 🎓 Activity Points Management System
 
 A full-stack MERN web application to help academic institutions manage and track student activity points. This system allows students to upload certificates and view their point status while admins can review and approve submissions.
@@ -87,13 +86,9 @@ JWT_SECRET=your_jwt_secret
 
 ---
 
-## 📸 Screenshots (Optional)
+## 📸 Screenshots
 
-> You can add UI screenshots here to show:
->
-> * Login/Register Page
-> * Upload Certificate Page
-> * Admin Dashboard
+
 
 ---
 
@@ -118,31 +113,3 @@ JWT_SECRET=your_jwt_secret
 This project is licensed under the [MIT License](LICENSE).
 
 ```
-
----
-
-### ✅ What to Do Next
-
-1. Open **Notepad** (or any code editor).
-2. Paste the above content.
-3. Save the file as:
-```
-
-README.md
-
-```
-4. Place it inside:
-```
-
-C:\Users\lijot\Desktop\S5\MAJOR PROJECT\project
-
-````
-5. Then run:
-
-```bash
-git add README.md
-git commit -m "Add README.md with project documentation"
-git push
-````
-
----
