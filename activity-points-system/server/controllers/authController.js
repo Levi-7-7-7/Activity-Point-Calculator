@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
     await Otp.create({
       email,
       otp,
-      userData: { name, email, password, role, registerNumber, rollNumber } // Store full data temporarily
+      userData: { name, email, password, role, registerNumber, rollNumber }
     });
 
     await sendOTP(email, otp);
@@ -39,13 +39,18 @@ exports.verifyOtp = async (req, res) => {
     const record = await Otp.findOne({ email, otp });
     if (!record) return res.status(400).json({ msg: 'Invalid or expired OTP' });
 
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      await Otp.deleteMany({ email });
+      return res.status(400).json({ msg: 'User already verified and registered' });
+    }
+
     const { name, password, role, registerNumber, rollNumber } = record.userData;
 
     if (!name || !password || !role) {
       return res.status(400).json({ msg: 'Incomplete user data in OTP record' });
     }
 
-    // Check if student-specific fields are present
     if (role === 'student' && (!registerNumber || !rollNumber)) {
       return res.status(400).json({ msg: 'Student must provide register and roll number' });
     }
@@ -56,7 +61,7 @@ exports.verifyOtp = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      ...(role === 'student' && { registerNumber, rollNumber })  // Add only if student
+      ...(role === 'student' && { registerNumber, rollNumber })
     });
 
     await user.save();
@@ -69,17 +74,26 @@ exports.verifyOtp = async (req, res) => {
   }
 };
 
-
-// Login (with password)
+// Login
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("📩 Received login request with:", email);
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
+    if (!user) {
+      console.log("❌ No user found for email:", email);
+      return res.status(400).json({ msg: 'Invalid credentials (email not found)' });
+    }
+
+    console.log("👤 Found user:", user.email, "Hash:", user.password);
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
+    console.log('🔐 Password match:', isMatch);
+
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid credentials (wrong password)' });
+    }
 
     const token = jwt.sign(
       { userId: user._id, role: user.role },

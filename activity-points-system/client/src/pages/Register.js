@@ -1,4 +1,3 @@
-// pages/Register.js
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -15,9 +14,9 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRegister = async () => {
@@ -29,7 +28,6 @@ const Register = () => {
         role: form.role
       };
 
-      // Include only if student
       if (form.role === 'student') {
         dataToSend.registerNumber = form.registerNumber;
         dataToSend.rollNumber = form.rollNumber;
@@ -46,7 +44,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="form-box">
       <h2>Register</h2>
 
       <input
@@ -107,6 +105,7 @@ const Register = () => {
       )}
 
       <button onClick={handleRegister}>Send OTP</button>
+      <a href="/login">Already have an account? Login</a>
     </div>
   );
 };

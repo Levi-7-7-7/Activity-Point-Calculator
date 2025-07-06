@@ -25,30 +25,26 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="form-box">
       <h2>Update Profile</h2>
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <label>Roll Number:</label><br />
-          <input
-            type="text"
-            value={rollNumber}
-            onChange={(e) => setRollNumber(e.target.value)}
-            required
-            placeholder="Enter your Roll Number"
-          />
-        </div>
+        <label>Roll Number:</label>
+        <input
+          type="text"
+          value={rollNumber}
+          onChange={(e) => setRollNumber(e.target.value)}
+          required
+          placeholder="Enter your Roll Number"
+        />
 
-        <div style={{ marginBottom: '10px' }}>
-          <label>Register Number:</label><br />
-          <input
-            type="text"
-            value={registerNumber}
-            onChange={(e) => setRegisterNumber(e.target.value)}
-            required
-            placeholder="Enter your Register Number"
-          />
-        </div>
+        <label>Register Number:</label>
+        <input
+          type="text"
+          value={registerNumber}
+          onChange={(e) => setRegisterNumber(e.target.value)}
+          required
+          placeholder="Enter your Register Number"
+        />
 
         <button type="submit">Save</button>
       </form>

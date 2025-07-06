@@ -35,7 +35,7 @@ const Upload = () => {
       await axios.post('http://localhost:5000/api/certificates/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': token
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -47,7 +47,7 @@ const Upload = () => {
   };
 
   return (
-    <div>
+    <div className="form-box">
       <h2>Upload Certificate</h2>
       <form onSubmit={handleSubmit}>
         <input

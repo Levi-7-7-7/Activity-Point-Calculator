@@ -1,7 +1,8 @@
+// pages/Notifications.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const TutorPanel = () => {
+const Notifications = () => {
   const [certs, setCerts] = useState([]);
 
   const fetchCertificates = async () => {
@@ -40,12 +41,13 @@ const TutorPanel = () => {
   };
 
   return (
-    <div>
-      <h2>Tutor Panel – Pending Certificates</h2>
+    <div style={{ padding: '20px' }}>
+      <h2>📢 Notifications – Pending Certificate Approvals</h2>
+
       {certs.length === 0 ? (
         <p>No pending certificates.</p>
       ) : (
-        <table border="1" cellPadding="10">
+        <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th>Student</th>
@@ -63,7 +65,7 @@ const TutorPanel = () => {
                 <td>{cert.title}</td>
                 <td>{cert.level}</td>
                 <td>
-                  <a href={`http://localhost:5000${cert.fileUrl}`} target="_blank" rel="noreferrer">View</a>
+                  <a href={cert.fileUrl} target="_blank" rel="noopener noreferrer">View</a>
                 </td>
                 <td>
                   <input
@@ -73,8 +75,8 @@ const TutorPanel = () => {
                   />
                 </td>
                 <td>
-                  <button onClick={() => handleAction(cert._id, 'approve', cert.comment || '')}>Approve</button>
-                  <button onClick={() => handleAction(cert._id, 'reject', cert.comment || '')}>Reject</button>
+                  <button onClick={() => handleAction(cert._id, 'approve', cert.comment || '')}>✅ Approve</button>
+                  <button onClick={() => handleAction(cert._id, 'reject', cert.comment || '')}>❌ Reject</button>
                 </td>
               </tr>
             ))}
@@ -85,4 +87,4 @@ const TutorPanel = () => {
   );
 };
 
-export default TutorPanel;
+export default Notifications;

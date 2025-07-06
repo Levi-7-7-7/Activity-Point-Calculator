@@ -1,11 +1,9 @@
-// routes/users.js
-
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/authMiddleware');
 const User = require('../models/User');
+const Certificate = require('../models/Certificate'); // ✅ Required to get certificates
 
-// 🔐 Middleware protects all routes below
 // 🔍 1. Get all students (for tutor)
 router.get('/all-students', auth, async (req, res) => {
   try {
@@ -15,16 +13,32 @@ router.get('/all-students', auth, async (req, res) => {
 
     const students = await User.find({ role: 'student' })
       .select('-password')
-      .sort({ rollNumber: 1 }) // Sort by rollNumber ascending
-     //populate('certificates'); // Optional: populate certificates if using refs
+      .sort({ rollNumber: 1 });
 
-    res.json(students);
+    // 🔁 Attach approved certificates and totalPoints
+    const studentWithCerts = await Promise.all(
+      students.map(async (student) => {
+        const certificates = await Certificate.find({
+          student: student._id,
+          status: 'approved',
+        });
+
+        const totalPoints = certificates.reduce((sum, cert) => sum + cert.points, 0);
+
+        return {
+          ...student.toObject(),
+          certificates,
+          totalPoints,
+        };
+      })
+    );
+
+    res.json(studentWithCerts);
   } catch (err) {
     console.error('Error fetching students:', err);
     res.status(500).json({ msg: 'Server error' });
   }
 });
-
 
 // ✏️ 2. Update student profile (rollNumber + registerNumber)
 router.put('/update-profile', auth, async (req, res) => {

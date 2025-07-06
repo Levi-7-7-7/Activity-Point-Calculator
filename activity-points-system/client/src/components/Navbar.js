@@ -27,7 +27,7 @@ const Navbar = () => {
 
         {isLoggedIn && role === 'tutor' && (
           <>
-            <Link to="/tutor">🧑‍🏫 Tutor Panel</Link>
+            <Link to="/tutor">📢 Notifications</Link>
             <Link to="/tutor/students">📋 Student List</Link>
           </>
         )}

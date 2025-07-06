@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'; // ✅ Correct import
+import autoTable from 'jspdf-autotable';
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -28,23 +28,15 @@ const StudentList = () => {
     fetchStudents();
   }, []);
 
-  const getTotalPoints = (certs) => {
-    if (!Array.isArray(certs)) return 0;
-    return certs
-      .filter(c => c.status === 'approved')
-      .reduce((sum, c) => sum + c.points, 0);
-  };
-
   const handleDownloadExcel = () => {
     const data = students.map((s) => {
-      const points = getTotalPoints(s.certificates);
       return {
         Name: s.name,
         RollNumber: s.rollNumber || '',
         RegisterNumber: s.registerNumber || '',
         Email: s.email,
-        TotalPoints: points,
-        Eligible: points >= 60 ? 'Yes' : 'No'
+        TotalPoints: s.totalPoints || 0,
+        Eligible: s.totalPoints >= 60 ? 'Yes' : 'No'
       };
     });
 
@@ -66,15 +58,14 @@ const StudentList = () => {
     const tableRows = [];
 
     students.forEach((student) => {
-      const points = getTotalPoints(student.certificates);
-      const eligible = points >= 60 ? "Yes" : "No";
+      const eligible = (student.totalPoints || 0) >= 60 ? "Yes" : "No";
 
       tableRows.push([
         student.rollNumber || "-",
         student.registerNumber || "-",
         student.name,
         student.email,
-        points,
+        student.totalPoints || 0,
         eligible
       ]);
     });
@@ -92,14 +83,14 @@ const StudentList = () => {
     <div style={{ padding: '20px' }}>
       <h2>📋 All Students</h2>
 
-     <div style={{ marginBottom: '15px' }}>
+      <div style={{ marginBottom: '15px' }}>
         <button onClick={handleDownloadExcel} className="small-btn" style={{ marginRight: '10px' }}>
-            📥 Download Excel
+          📥 Download Excel
         </button>
         <button onClick={handleDownloadPDF} className="small-btn">
-            📄 Download PDF
+          📄 Download PDF
         </button>
-    </div>
+      </div>
 
       <table border="1" cellPadding="10" style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
@@ -118,23 +109,20 @@ const StudentList = () => {
               <td colSpan="6" align="center">No students found.</td>
             </tr>
           ) : (
-            students.map(std => {
-              const points = getTotalPoints(std.certificates);
-              return (
-                <tr key={std._id}>
-                  <td>{std.rollNumber || '-'}</td>
-                  <td>{std.registerNumber || '-'}</td>
-                  <td>{std.name}</td>
-                  <td>{std.email}</td>
-                  <td>{points}</td>
-                  <td>
-                    <button onClick={() => navigate(`/tutor/student/${std._id}`)}>
-                      View
-                    </button>
-                  </td>
-                </tr>
-              );
-            })
+            students.map(std => (
+              <tr key={std._id}>
+                <td>{std.rollNumber || '-'}</td>
+                <td>{std.registerNumber || '-'}</td>
+                <td>{std.name}</td>
+                <td>{std.email}</td>
+                <td>{std.totalPoints || 0}</td>
+                <td>
+                  <button onClick={() => navigate(`/tutor/student/${std._id}`)}>
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))
           )}
         </tbody>
       </table>

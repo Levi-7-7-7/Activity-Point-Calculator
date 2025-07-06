@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './pages/Upload';
 import Dashboard from './pages/Dashboard';
-import TutorPanel from './pages/TutorPanel';
+import TutorPanel from './pages/Notifications';
 import UpdateProfile from './pages/UpdateProfile';
 import StudentList from './pages/StudentList';
 import StudentDetail from './pages/StudentDetail';
