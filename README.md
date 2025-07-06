@@ -1,4 +1,3 @@
-```markdown
 # 🎓 Activity Points Management System
 
 A full-stack MERN web application to help academic institutions manage and track student activity points. This system allows students to upload certificates and view their point status while admins can review and approve submissions.
