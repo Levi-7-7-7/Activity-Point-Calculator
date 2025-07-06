@@ -86,13 +86,16 @@ JWT_SECRET=your_jwt_secret
 
 ---
 
-## 📸 Screenshots (Optional)
+## 📸 Screenshots
 
-> You can add UI screenshots here to show:
->
-> * Login/Register Page
-> * Upload Certificate Page
-> * Admin Dashboard
+![Screenshot 2025-07-05 205058](https://github.com/user-attachments/assets/398d21b5-268a-46c1-a0f4-2cd57d238668)
+
+![Screenshot 2025-07-05 205104](https://github.com/user-attachments/assets/998672f3-3f79-47b3-bf3b-3c84b2d364e3)
+
+![Screenshot 2025-07-05 205053](https://github.com/user-attachments/assets/aa3ab841-d3c7-42cc-95d7-4ab747567f2b)
+
+![Screenshot 2025-07-05 205046](https://github.com/user-attachments/assets/1495853e-1069-43a9-adc9-3af526ff2e5e)
+
 
 ---
 
@@ -107,7 +110,7 @@ JWT_SECRET=your_jwt_secret
 
 ## 👨‍💻 Author
 
-**Lijo Thomas**
+**Levi**
 📎 GitHub: [@Levi-7-7-7](https://github.com/Levi-7-7-7)
 
 ---
@@ -117,31 +120,3 @@ JWT_SECRET=your_jwt_secret
 This project is licensed under the [MIT License](LICENSE).
 
 ```
-
----
-
-### ✅ What to Do Next
-
-1. Open **Notepad** (or any code editor).
-2. Paste the above content.
-3. Save the file as:
-```
-
-README.md
-
-```
-4. Place it inside:
-```
-
-C:\Users\lijot\Desktop\S5\MAJOR PROJECT\project
-
-````
-5. Then run:
-
-```bash
-git add README.md
-git commit -m "Add README.md with project documentation"
-git push
-````
-
----
